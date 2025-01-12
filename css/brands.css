@@ -473,7 +473,7 @@
 /* Steam */
 .button-steam {
 	--button-text:#ffffff;
-	background-image:linear-gradient(90deg,#08BBFF,#2B75FF);
+	--button-background:#000000;
 }
 
 /* Steam Alt */
@@ -539,6 +539,12 @@
 	--button-text:#ffffff;
 	--button-background:#9146ff;
 }
+
+/* Twitter */
+.button-twitter {
+	--button-text: #ffffff;
+	--button-background: #1da1f2;
+  }
 
 /* Unsplash */
 .button-unsplash {
