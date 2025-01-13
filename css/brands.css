@@ -594,8 +594,7 @@
 /* YouTube */
 .button-yt {
 	--button-text:#ffffff;
-	--button-background:#282828;
-	--button-border:1px solid #FFFFFF;
+	--button-background:#FF0000;
 }
 
 /* Zoom */
