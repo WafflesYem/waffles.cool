@@ -7,6 +7,7 @@
 
 /* Base Typography Settings
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 :root {
 	font-size:16px;
 }
@@ -176,12 +177,12 @@ footer {
 
 /* Links
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  a {
-	color:#2457F5;
+a {
+	color:#ffffff;
 	text-decoration:underline;
 }
 a:hover {
-	color:#083BDA;
+	color:#ffffff;
 }
 
 /* Buttons
