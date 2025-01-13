@@ -597,6 +597,12 @@
 	--button-background:#FF0000;
 }
 
+/* YouTube 2 */
+.button-yt2 {
+	--button-text:#ffffff;
+	--button-background:#FF0000;
+}
+
 /* Zoom */
 .button-zoom {
 	--button-text:#ffffff;
