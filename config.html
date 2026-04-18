@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DisCal Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      padding: 24px 20px 40px;
+    }
+    h1 {
+      font-size: 24px;
+      color: #a8ff78;
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #2a2a3e;
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 22px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #a8ff78;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+    .row input {
+      flex: 1;
+    }
+    .row-label {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .row-label span {
+      flex: 1;
+      font-size: 13px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      border-radius: 8px;
+      border: none;
+      background: #a8ff78;
+      color: #1a1a2e;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    button:active {
+      background: #8de060;
+    }
+    .hint {
+      font-size: 12px;
+      color: #666;
+      margin-top: -16px;
+      margin-bottom: 22px;
+    }
+  </style>
+</head>
+<body>
+  <h1>DisCal</h1>
+
+  <label>Daily calorie limit</label>
+  <input type="number" id="limit" inputmode="numeric" placeholder="e.g. 2000">
+
+  <div class="row-label">
+    <span>Send hour (0–23)</span>
+    <span>Send minute (0–59)</span>
+  </div>
+  <div class="row">
+    <input type="number" id="hour"   inputmode="numeric" min="0" max="23" placeholder="23">
+    <input type="number" id="minute" inputmode="numeric" min="0" max="59" placeholder="0">
+  </div>
+  <p class="hint">The daily report will send at this time, then reset the log.</p>
+
+  <label>Discord webhook URL</label>
+  <input type="url" id="webhook" inputmode="url" placeholder="https://discord.com/api/webhooks/...">
+
+  <button onclick="save()">Save &amp; Close</button>
+
+  <script>
+    // Read options passed in via URL hash from app.js
+    function getOptions() {
+      try {
+        var hash = location.hash.slice(1);
+        if (hash) return JSON.parse(decodeURIComponent(hash));
+      } catch(e) {}
+      return {};
+    }
+
+    var opts = getOptions();
+    document.getElementById('limit').value   = opts.dailyLimit  || 2000;
+    document.getElementById('hour').value    = opts.sendHour    !== undefined ? opts.sendHour    : 23;
+    document.getElementById('minute').value  = opts.sendMinute  !== undefined ? opts.sendMinute  : 0;
+    document.getElementById('webhook').value = opts.webhookUrl  || '';
+
+    function save() {
+      var cfg = {
+        dailyLimit:  parseInt(document.getElementById('limit').value,  10) || 2000,
+        sendHour:    parseInt(document.getElementById('hour').value,   10),
+        sendMinute:  parseInt(document.getElementById('minute').value, 10),
+        webhookUrl:  document.getElementById('webhook').value.trim()
+      };
+      // Clamp values
+      if (isNaN(cfg.sendHour))   cfg.sendHour   = 23;
+      if (isNaN(cfg.sendMinute)) cfg.sendMinute = 0;
+      cfg.sendHour   = Math.min(23, Math.max(0, cfg.sendHour));
+      cfg.sendMinute = Math.min(59, Math.max(0, cfg.sendMinute));
+
+      location.href = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(cfg));
+    }
+  </script>
+</body>
+</html>
