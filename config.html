@@ -73,6 +73,14 @@
     button:active {
       background: #8de060;
     }
+    .test-btn {
+      background: #ff7f7f;
+      color: #1a1a2e;
+      margin-top: 12px;
+    }
+    .test-btn:active {
+      background: #e06060;
+    }
     .hint {
       font-size: 12px;
       color: #666;
@@ -101,6 +109,7 @@
   <input type="url" id="webhook" inputmode="url" placeholder="https://discord.com/api/webhooks/...">
 
   <button onclick="save()">Save &amp; Close</button>
+  <button class="test-btn" onclick="sendNow()">Send Now &amp; Reset</button>
 
   <script>
     // Read options passed in via URL hash from app.js
@@ -125,12 +134,17 @@
         sendMinute:  parseInt(document.getElementById('minute').value, 10),
         webhookUrl:  document.getElementById('webhook').value.trim()
       };
-      // Clamp values
       if (isNaN(cfg.sendHour))   cfg.sendHour   = 23;
       if (isNaN(cfg.sendMinute)) cfg.sendMinute = 0;
       cfg.sendHour   = Math.min(23, Math.max(0, cfg.sendHour));
       cfg.sendMinute = Math.min(59, Math.max(0, cfg.sendMinute));
 
+      location.href = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(cfg));
+    }
+
+    function sendNow() {
+      // Sends a special flag that tells app.js to trigger send+reset immediately
+      var cfg = { sendNow: true };
       location.href = 'pebblejs://close#' + encodeURIComponent(JSON.stringify(cfg));
     }
   </script>
